@@ -21,6 +21,8 @@ public class MongoController {
     public List<Document> find(@PathVariable String collection, @RequestBody MongoDto dto) {
         return getCollection(collection)
                 .find(dto.filter())
+                .projection(dto.projection())
+                .sort(dto.sort())
                 .skip(dto.page() * dto.size())
                 .limit(dto.size())
                 .into(new ArrayList<>());
