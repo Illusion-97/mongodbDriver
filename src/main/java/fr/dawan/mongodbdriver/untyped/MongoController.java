@@ -18,11 +18,11 @@ public class MongoController {
     }
 
     @PostMapping("find")
-    public List<Document> find(@PathVariable String collection, @RequestBody Document filter, @RequestParam int page, @RequestParam int size) {
+    public List<Document> find(@PathVariable String collection, @RequestBody MongoDto dto) {
         return getCollection(collection)
-                .find(filter)
-                .skip(page * size)
-                .limit(size)
+                .find(dto.filter())
+                .skip(dto.page() * dto.size())
+                .limit(dto.size())
                 .into(new ArrayList<>());
     }
 }
