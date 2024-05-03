@@ -3,7 +3,7 @@ package fr.dawan.mongodbdriver.untyped;
 //import lombok.RequiredArgsConstructor;
 import org.bson.Document;
 
-public record MongoDto(Document filter, int page, int size, Document sort, Document projection) {
+public record MongoDto(Document filter, Document subject, int page, int size, Document sort, Document projection) {
 }
 
 /*@RequiredArgsConstructor
