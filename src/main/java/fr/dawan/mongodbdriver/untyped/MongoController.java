@@ -1,5 +1,7 @@
 package fr.dawan.mongodbdriver.untyped;
 
+import com.mongodb.client.model.FindOneAndReplaceOptions;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
@@ -47,11 +49,23 @@ public class MongoController {
 
     @PutMapping("findAndReplace") // peu d'interêt
     public Document findAndReplace(@PathVariable String collection, @RequestBody MongoDto dto) {
-        return getCollection(collection).findOneAndReplace(dto.filter(), dto.subject());
+        return getCollection(collection).findOneAndReplace(
+                dto.filter(),
+                dto.subject(),
+                new FindOneAndReplaceOptions()
+                        .upsert(true)
+        );
     }
     @PutMapping("findAndUpdate")
     public Document findAndUpdate(@PathVariable String collection, @RequestBody MongoDto dto) {
-        return getCollection(collection).findOneAndUpdate(dto.filter(), dto.subject());
+        return getCollection(collection).findOneAndUpdate(
+                dto.filter(),
+                dto.subject(),
+                new FindOneAndUpdateOptions()
+                        .projection(dto.projection())
+                        .sort(dto.sort())
+                        .upsert(true)
+        );
     }
 
     @DeleteMapping("findOneAndDelete")
